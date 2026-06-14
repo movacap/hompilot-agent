@@ -134,6 +134,11 @@ async function toggleActive(id, currentActive) {
 // Form submission
 document.getElementById('setup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const submitBtn = document.getElementById('submit-btn');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Saving...';
+  submitBtn.disabled = true;
+
   const data = {
     name: document.getElementById('business-name').value,
     owner_email: document.getElementById('owner-email').value,
@@ -157,12 +162,20 @@ document.getElementById('setup-form').addEventListener('submit', async (e) => {
     showToast(editingBusinessId ? 'Business updated!' : 'Agent activated successfully!');
     cancelEdit();
     loadBusinesses();
-    // Switch to businesses tab
     document.querySelector('[data-tab="businesses"]').click();
   } else {
-    const err = await res.json();
-    alert('Error: ' + err.error);
+    let errMsg = `Server error (${res.status})`;
+    try {
+      const err = await res.json();
+      errMsg = err.error || errMsg;
+    } catch {
+      try { errMsg = await res.text(); } catch {}
+    }
+    alert('Error: ' + errMsg);
   }
+
+  submitBtn.textContent = originalText;
+  submitBtn.disabled = false;
 });
 
 // Appointments
