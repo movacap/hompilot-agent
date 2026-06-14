@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomPilot — SMS Booking Agent Platform</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🏠 HomPilot</div>
+    <div class="header-subtitle">SMS Booking Agent Platform</div>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="setup">Setup Agent</button>
+      <button class="tab-btn" data-tab="businesses">My Businesses</button>
+      <button class="tab-btn" data-tab="appointments">Appointments</button>
+    </div>
+
+    <!-- Setup Tab -->
+    <div id="setup" class="tab-content active">
+      <div class="card">
+        <h2 class="card-title" id="form-title">Activate New SMS Agent</h2>
+        <form id="setup-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="business-name">Business Name</label>
+              <input type="text" id="business-name" required placeholder="e.g. Smith's Home Services" />
+            </div>
+            <div class="form-group">
+              <label for="owner-email">Owner Email</label>
+              <input type="email" id="owner-email" required placeholder="owner@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="twilio-phone">Twilio Phone Number</label>
+              <input type="text" id="twilio-phone" required placeholder="+15551234567" />
+            </div>
+            <div class="form-group">
+              <label for="timezone">Timezone</label>
+              <select id="timezone">
+                <option value="America/New_York">Eastern (ET)</option>
+                <option value="America/Chicago">Central (CT)</option>
+                <option value="America/Denver">Mountain (MT)</option>
+                <option value="America/Los_Angeles">Pacific (PT)</option>
+                <option value="America/Phoenix">Arizona (MST)</option>
+                <option value="America/Anchorage">Alaska (AKT)</option>
+                <option value="Pacific/Honolulu">Hawaii (HST)</option>
+              </select>
+            </div>
+          </div>
+
+          <h3 style="margin:1.5rem 0 1rem;color:var(--navy)">Services Offered</h3>
+          <table class="services-table">
+            <thead>
+              <tr><th>Service Name</th><th>Duration (min)</th><th>Price ($)</th><th></th></tr>
+            </thead>
+            <tbody id="services-tbody"></tbody>
+          </table>
+          <button type="button" class="btn btn-secondary" onclick="addService()" style="margin-top:0.75rem">+ Add Service</button>
+
+          <h3 style="margin:1.5rem 0 1rem;color:var(--navy)">Business Hours</h3>
+          <div class="hours-grid" id="hours-grid"></div>
+
+          <div style="margin-top:2rem;display:flex;gap:1rem">
+            <button type="submit" class="btn btn-primary" id="submit-btn">Activate Agent</button>
+            <button type="button" class="btn btn-secondary" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none">Cancel Edit</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" style="background:var(--light-navy);color:white">
+        <h3 style="margin:0 0 1rem;color:white">🔧 Setup Instructions</h3>
+        <ol style="margin:0;padding-left:1.25rem;line-height:2">
+          <li>Create a Twilio account and get a phone number</li>
+          <li>Set the SMS webhook URL in Twilio to: <code style="background:rgba(255,255,255,0.2);padding:0.1rem 0.4rem;border-radius:4px">https://your-domain.com/webhook/sms</code></li>
+          <li>Add your services and business hours above</li>
+          <li>Click "Activate Agent" — your SMS agent is live!</li>
+          <li>Customers text your Twilio number and the AI handles booking</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Businesses Tab -->
+    <div id="businesses" class="tab-content">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <h2 class="card-title" style="margin:0;border:none;padding:0">Active Businesses</h2>
+          <button class="btn btn-primary" onclick="document.querySelector('[data-tab=setup]').click()">+ Add New</button>
+        </div>
+        <div id="businesses-list">
+          <div class="empty-state">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appointments Tab -->
+    <div id="appointments" class="tab-content">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <h2 class="card-title" style="margin:0;border:none;padding:0">Appointments</h2>
+          <div style="display:flex;gap:1rem;align-items:center">
+            <select id="business-selector" onchange="loadAppointments()" style="padding:0.5rem;border:1px solid var(--border);border-radius:6px">
+              <option value="">Select a business</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadAppointments()">Refresh</button>
+          </div>
+        </div>
+        <div id="appointments-table-container">
+          <div class="empty-state">Select a business to view appointments.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
