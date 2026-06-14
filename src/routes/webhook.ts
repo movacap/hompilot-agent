@@ -17,7 +17,7 @@ router.post('/sms', async (req: Request, res: Response) => {
     return;
   }
 
-  const business = getBusinessByPhone(businessPhone);
+  const business = await getBusinessByPhone(businessPhone);
   if (!business) {
     res.send(twimlResponse("This number is not currently active. Please contact support."));
     return;
@@ -25,11 +25,10 @@ router.post('/sms', async (req: Request, res: Response) => {
 
   const cleanMessage = messageBody.trim();
 
-  // Handle CANCEL keyword
   if (cleanMessage.toUpperCase() === 'CANCEL') {
-    const appt = getLatestAppointmentByPhone(customerPhone, business.id) as any;
+    const appt = await getLatestAppointmentByPhone(customerPhone, business.id) as any;
     if (appt) {
-      updateAppointmentStatus(appt.id, 'cancelled');
+      await updateAppointmentStatus(appt.id, 'cancelled');
       res.send(twimlResponse(`Your appointment for ${appt.service_name} on ${appt.scheduled_at} has been cancelled. Reply anytime to book a new appointment.`));
     } else {
       res.send(twimlResponse("We couldn't find an active appointment to cancel. Reply anytime to book a new appointment."));
@@ -38,12 +37,10 @@ router.post('/sms', async (req: Request, res: Response) => {
   }
 
   try {
-    const conversation = getOrCreateConversation(business.id, customerPhone);
+    const conversation = await getOrCreateConversation(business.id, customerPhone);
     const messages: Message[] = conversation.messages;
 
     const agentResponse = await runAgent(business, messages, cleanMessage);
-
-    // Check for booking
     const booking = extractBooking(agentResponse);
     let replyText = agentResponse.replace(/<BOOKING>[\s\S]*?<\/BOOKING>/g, '').trim();
 
@@ -52,7 +49,7 @@ router.post('/sms', async (req: Request, res: Response) => {
       const scheduledAt = `${booking.date}T${booking.time}:00`;
       const apptId = uuidv4();
 
-      createAppointment({
+      await createAppointment({
         id: apptId,
         business_id: business.id,
         conversation_id: conversation.id,
@@ -65,7 +62,7 @@ router.post('/sms', async (req: Request, res: Response) => {
         created_at: now,
       });
 
-      updateConversation(conversation.id, [
+      await updateConversation(conversation.id, [
         ...messages,
         { role: 'user', content: cleanMessage, timestamp: now },
         { role: 'assistant', content: agentResponse, timestamp: now },
@@ -78,7 +75,7 @@ router.post('/sms', async (req: Request, res: Response) => {
       }
     } else {
       const now = new Date().toISOString();
-      updateConversation(conversation.id, [
+      await updateConversation(conversation.id, [
         ...messages,
         { role: 'user', content: cleanMessage, timestamp: now },
         { role: 'assistant', content: agentResponse, timestamp: now },
