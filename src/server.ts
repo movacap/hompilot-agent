@@ -13,11 +13,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(process.cwd(), 'public')));
-
 app.use('/webhook', webhookRouter);
 app.use('/api', apiRouter);
-app.use('/', dashboardRouter);
 
 app.listen(PORT, () => {
   console.log(`HomPilot Agent running on port ${PORT}`);
