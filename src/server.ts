@@ -13,9 +13,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// In Vercel serverless, __dirname = bundle root, public/ is placed there via includeFiles
-// In local dev, __dirname = dist/, so ../public works — we check both
 const publicDir = path.join(__dirname, 'public');
+console.log('Static files dir:', publicDir);
 app.use(express.static(publicDir));
 
 app.use('/webhook', webhookRouter);
