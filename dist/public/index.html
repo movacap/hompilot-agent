@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomPilot — SMS Agent Platform</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🏠</div>
+      <div class="sidebar-logo-text">
+        <span class="sidebar-logo-name">HomPilot</span>
+        <span class="sidebar-logo-badge">PRO</span>
+      </div>
+    </div>
+
+    <div class="sidebar-create">
+      <button class="btn-create" onclick="showPage('setup')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        Activate Agent
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group-label">Main</div>
+        <button class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zm0 9.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zm9.75-9.75A2.25 2.25 0 0115.75 3.75H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zm0 9.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" id="nav-businesses" onclick="showPage('businesses')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg>
+          SMS Agents
+        </button>
+        <button class="nav-item" id="nav-appointments" onclick="showPage('appointments')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5"/></svg>
+          Appointments
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">AI</div>
+        <button class="nav-item" id="nav-setup" onclick="showPage('setup')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          SMS Agent Setup
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Settings</div>
+        <button class="nav-item" id="nav-webhook">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
+          Webhook Config
+        </button>
+        <button class="nav-item" id="nav-billing">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+          Billing
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <span>Search or ask AI...</span>
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn primary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          Ask HomAI
+        </button>
+        <button class="topbar-icon-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
+        </button>
+        <div class="avatar">M</div>
+      </div>
+    </header>
+
+    <!-- PAGES -->
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-subtitle">Overview of your SMS booking agents</div>
+        </div>
+      </div>
+
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Active Agents</div>
+          <div class="stat-value" id="stat-agents">—</div>
+          <div class="stat-sub">SMS-enabled businesses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Appointments</div>
+          <div class="stat-value" id="stat-appointments">—</div>
+          <div class="stat-sub">All time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value" id="stat-week">—</div>
+          <div class="stat-sub">Appointments booked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Confirmation Rate</div>
+          <div class="stat-value" id="stat-rate">—</div>
+          <div class="stat-sub">Confirmed vs total</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg>
+          Active SMS Agents
+        </div>
+        <div id="dashboard-businesses-list">
+          <div class="empty-state">
+            <span class="empty-state-icon">📱</span>
+            <h3>No agents yet</h3>
+            <p>Activate your first SMS agent to get started</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESSES PAGE -->
+    <div class="page" id="page-businesses" style="display:none">
+      <div class="page-header">
+        <div>
+          <div class="page-title">SMS Agents</div>
+          <div class="page-subtitle">Manage your active SMS booking agents</div>
+        </div>
+        <button class="btn btn-primary" onclick="showPage('setup')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add Agent
+        </button>
+      </div>
+      <div id="businesses-list">
+        <div class="empty-state">
+          <span class="empty-state-icon">🏢</span>
+          <h3>No businesses yet</h3>
+          <p>Add your first business to activate an SMS agent</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETUP PAGE -->
+    <div class="page" id="page-setup" style="display:none">
+      <div class="page-header">
+        <div>
+          <div class="page-title" id="setup-page-title">Activate New SMS Agent</div>
+          <div class="page-subtitle">Configure the AI booking agent for a home services business</div>
+        </div>
+        <button class="btn btn-secondary" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none">Cancel</button>
+      </div>
+
+      <div class="panel-layout">
+        <div>
+          <div class="card">
+            <div class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              Business Information
+            </div>
+            <form id="setup-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="business-name">Business Name</label>
+                  <input type="text" id="business-name" required placeholder="e.g. Smith's Home Services" />
+                </div>
+                <div class="form-group">
+                  <label for="owner-email">Owner Email</label>
+                  <input type="email" id="owner-email" required placeholder="owner@example.com" />
+                </div>
+                <div class="form-group">
+                  <label for="twilio-phone">Twilio Phone Number</label>
+                  <input type="text" id="twilio-phone" required placeholder="+15551234567" />
+                </div>
+                <div class="form-group">
+                  <label for="timezone">Timezone</label>
+                  <select id="timezone">
+                    <option value="America/New_York">Eastern (ET)</option>
+                    <option value="America/Chicago">Central (CT)</option>
+                    <option value="America/Denver">Mountain (MT)</option>
+                    <option value="America/Los_Angeles">Pacific (PT)</option>
+                    <option value="America/Phoenix">Arizona (MST)</option>
+                    <option value="America/Anchorage">Alaska (AKT)</option>
+                    <option value="Pacific/Honolulu">Hawaii (HST)</option>
+                    <option value="America/Toronto">Toronto (ET)</option>
+                    <option value="America/Vancouver">Vancouver (PT)</option>
+                    <option value="America/Montreal">Montreal (ET)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:16px;height:16px;color:var(--primary)"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
+                Services Offered
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Service Name</th><th>Duration (min)</th><th>Price ($)</th><th></th></tr></thead>
+                  <tbody id="services-tbody"></tbody>
+                </table>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="addService()" style="margin-top:12px">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                Add Service
+              </button>
+
+              <div class="section-heading" style="margin-top:28px">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:16px;height:16px;color:var(--primary)"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Business Hours
+              </div>
+              <div class="hours-grid" id="hours-grid"></div>
+
+              <div style="margin-top:28px;display:flex;gap:10px">
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+                  Activate Agent
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <div class="instructions">
+            <h3>🔧 Setup Instructions</h3>
+            <ol>
+              <li>Create a Twilio account and get a phone number</li>
+              <li>Set SMS webhook to:<br><code>/webhook/sms</code></li>
+              <li>Add your services &amp; hours</li>
+              <li>Click "Activate Agent" — you're live!</li>
+              <li>Customers text your number to book</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS PAGE -->
+    <div class="page" id="page-appointments" style="display:none">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Appointments</div>
+          <div class="page-subtitle">Bookings made through your SMS agents</div>
+        </div>
+        <button class="btn btn-secondary" onclick="loadAppointments()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <select class="filter-select" id="business-selector" onchange="loadAppointments()">
+          <option value="">All businesses</option>
+        </select>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div id="appointments-table-container">
+          <div class="empty-state">
+            <span class="empty-state-icon">📅</span>
+            <h3>No appointments yet</h3>
+            <p>Appointments booked via SMS will appear here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
